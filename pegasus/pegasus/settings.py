@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['172.16.17.60']
 
+CELERY_BROKER_URL = 'amqp://localhost'
+
 
 # Application definition
 
