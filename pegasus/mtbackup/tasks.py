@@ -7,6 +7,9 @@ import paramiko, os, sys, sh
 from django.core.files import File
 
 
+backup_dir = "/backup_dir"
+
+
 @shared_task
 def add(x, y):
     return x + y
@@ -18,12 +21,23 @@ def mul(x, y):
 
 
 @shared_task
+def git_add_and_commit():
+    
+    git = sh.git.bake( _cwd = backup_dir ) 
+    
+    if  git.status('--porcelain') == "":
+        print("Nothing to commit")
+    else:
+        git.add('-A')
+        git.commit(m='Backup Commit')
+        
+    print("Done")
+    return()
+
+
+@shared_task
 def create_backup(ip, port, username, password):
 
-    backup_dir = "/backup_dir"
-
-    git = sh.git.bake( _cwd = backup_dir )
-    
     #try:
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -47,20 +61,10 @@ def create_backup(ip, port, username, password):
         
     backup_file = backup_dir + "/" + kdnr + "/" + identity.strip().decode("utf-8") + ".rsc"
         
-    if not os.path.exists(backup_file):
-        git_add = True
-    else:
-        git_add = False
-        
     with open( backup_file, 'w', newline="\n") as bf:
         file = File(bf)
         file.write(export)
             
-    if git_add == True:
-        git.add(backup_file)
-        print("git add durchgeführt!")
-                
-    print(git_add)
     print("Done!")
     #except:
         #print("Grosse Scheisse!")

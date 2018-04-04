@@ -28,4 +28,4 @@ def new_device(request):
 
 def show_device(request):
     devices = Device.objects.all()
-    return HttpResponse(devices)
+    return HttpResponse("show_device")
