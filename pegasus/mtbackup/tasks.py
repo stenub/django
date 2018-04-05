@@ -27,9 +27,12 @@ def git_add_and_commit():
     
     if  git.status('--porcelain') == "":
         print("Nothing to commit")
+        print("git.status ausgeführt")
     else:
         git.add('-A')
+        print("git.add ausgeführt")
         git.commit(m='Backup Commit')
+        print("git.commit ausgeführt")
         
     print("Done")
     return()

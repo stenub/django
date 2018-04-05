@@ -7,15 +7,23 @@ from .forms import new_DeviceForm
 
 from .models import Device
 
-from .tasks import create_backup
+from .tasks import create_backup, git_add_and_commit
+
+from celery import chord
 
 def index(request):
     return HttpResponse("Hello World. Du bist im mtbackup index.")
 
 def get_backup(request):
     devices = Device.objects.all()
-    for d in devices:
-        create_backup.delay(d.mgt_ip, 22, d.username, d.password)
+
+    header = [create_backup.s(d.mgt_ip, 22, d.username, d.password) for d in devices]
+    callback = git_add_and_commit.si()
+   
+    result = chord(header)(callback)
+
+    #for d in devices:
+    #    create_backup.delay(d.mgt_ip, 22, d.username, d.password)
         
     return HttpResponse("get_backup")
 
