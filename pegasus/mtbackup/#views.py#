@@ -9,6 +9,8 @@ from .models import Device
 
 from .tasks import create_backup
 
+from celery import chord
+
 def index(request):
     return HttpResponse("Hello World. Du bist im mtbackup index.")
 

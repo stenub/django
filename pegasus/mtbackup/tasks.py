@@ -68,4 +68,4 @@ def create_backup(ip, port, username, password):
     print("Done!")
     #except:
         #print("Grosse Scheisse!")
-    return(None)
+    return()
