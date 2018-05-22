@@ -131,3 +131,7 @@ venv.bak/
 
 
 # End of https://www.gitignore.io/api/linux,python,django
+
+redis-4\.0\.9/
+
+\.DS_Store
