@@ -20,14 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '$n2fc%puu+4gicoy6dqd0rmcuu=tg6bfo-fi68&6y7n$_uc5mp'
+SECRET_KEY = 'q-eg2=4u1nn53m=lgr7qr#+%pq7n21)9wuxo8*y$-%6-+aoi&a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['172.16.17.60']
-
-CELERY_BROKER_URL = 'amqp://localhost'
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -40,8 +38,21 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'mtbackup',
+    'django_celery_beat',
     'django_celery_results',
+    #'djcelery',
+    #'kombu.transport.django',
+
+
 ]
+
+
+BROKER_URL = 'redis://localhost:6379/0'
+
+
+CELERY_RESULT_BACKEND = 'django-db'
+
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,8 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
 
-#LANGUAGE_CODE = 'en-us'
-LANGUAGE_CODE = "de-de"
+LANGUAGE_CODE = 'de-de'
 
 TIME_ZONE = 'Europe/Berlin'
 
@@ -123,5 +133,3 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
-CELERY_RESULT_BACKEND = 'django-db'
