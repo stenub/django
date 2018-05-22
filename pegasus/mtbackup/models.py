@@ -8,9 +8,14 @@ from django_celery_beat.models import CrontabSchedule
 class Customer(models.Model):
     name = models.CharField(max_length=100)
     number = models.CharField(max_length=6)
+    comment = models.CharField(max_length=150, default='', blank=True)
 
     def __str__(self):
         return (str(self.number) + '-' + self.name)
+
+    class Meta:
+        ordering = ['number']
+
 
 class Device(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)

@@ -7,7 +7,7 @@ import paramiko, os, sys, sh
 from django.core.files import File
 
 
-backup_dir = "/backup_dir"
+backup_dir = "/Users/cosmic/backup_dir"
 
 
 @shared_task
@@ -51,7 +51,7 @@ def git_add_and_commit():
 
 
 @shared_task
-def create_backup(hostname, ip, port, username, password):
+def create_backup(kdnr, hostname, ip, port, username, password):
     # try:
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -73,7 +73,7 @@ def create_backup(hostname, ip, port, username, password):
     if not os.path.exists(backup_dir + "/" + kdnr):
         os.makedirs(backup_dir + "/" + kdnr)
 
-    backup_file = backup_dir + "/" + kdnr + "/" + identity.strip().decode("utf-8") + ".rsc"
+    backup_file = backup_dir + "/" + kdnr + "/" + hostname + ".rsc"
 
     with open(backup_file, 'w', newline="\n") as bf:
         file = File(bf)

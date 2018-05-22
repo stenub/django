@@ -4,11 +4,11 @@ from django.shortcuts import render, redirect
 
 from django.http import HttpResponse
 
-from .models import Device
+from .models import Device, Customer
 
 from django_celery_beat.models import CrontabSchedule
 
-from .forms import device_new_form, schedule_new_form, DeviceForm
+from .forms import customer_new_form, device_new_form, schedule_new_form
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -17,8 +17,54 @@ from .tasks import *
 from celery import chord
 
 
+def dashboard(request):
+    return render(request, 'mtbackup/dashboard.html')
+
+
 def index(request):
     return HttpResponse("Hello World. Du bist im mtbackup index")
+
+
+def customer_list(request):
+    customers_all = Customer.objects.all()
+    paginator = Paginator(customers_all, 10)
+
+    page = request.GET.get('page', 1)
+
+
+    if request.method == "POST" and 'action' in request.POST:
+        if request.POST.get('action') == 'delete':
+            customers_to_delete = request.POST.getlist('select')
+            # customers_to_delete.delete()
+            print("Customers to delete", customers_to_delete)
+            return redirect(customer_list)
+
+
+    try:
+        customers = paginator.page(page)
+    except PageNotAnInteger:
+        customers = paginator.page(1)
+    except EmptyPage:
+        customers = paginator.page(paginator.num_pages)
+
+
+    return render(request, 'mtbackup/customer_list.html', {'customers': customers })
+
+
+def customer_new(request):
+    if request.method == "GET":
+        form = customer_new_form()
+    if request.method == "POST":
+        #print("POST erhalten")
+        form = customer_new_form(request.POST)
+        if form.is_valid():
+            form.save()
+            #print("Speichern erfogreich!")
+            return redirect(customer_list)
+        else:
+            print("Fehler")
+    return render(request, 'mtbackup/customer_new.html', {'form': form})
+
 
 
 def device_list(request):
@@ -37,7 +83,7 @@ def device_list(request):
             #print(dev_objects)
 
             for dev in dev_objects:
-                create_backup.delay(dev.mgt_ip, 22, dev.username, dev.password)
+                create_backup.delay(dev.customer.number, dev.hostname, dev.mgt_ip, 22, dev.username, dev.password)
 
             #chord(backup_test.s(dev.hostname, dev.mgt_ip, dev.username, dev.password)for dev in dev_objects)(test_print.s())
 
