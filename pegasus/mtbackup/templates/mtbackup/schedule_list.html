@@ -1,0 +1,43 @@
+{% extends 'mtbackup/base.html' %}
+
+
+{% block content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>List all Schedules</h1>
+        <p>Alle Schedules auflisten</p>
+
+
+        <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th scope="col">Minute</th>
+                    <th scope="col">Hour</th>
+                    <th scope="col">Day_of_Week</th>
+                    <th scope="col">Day_of_Month</th>
+                    <th scope="col">Month_of_Year</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for s in schedules %}
+                <tr>
+                    <td>{{ s.minute }}</td>
+                    <td>{{ s.hour }}</td>
+                    <td>{{ s.day_of_week }}</td>
+                    <td>{{ s.day_of_month }}</td>
+                    <td>{{ s.month_of_year }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+
+            </table>
+
+    </div>
+</div>
+
+
+
+{% endblock %}
+
+

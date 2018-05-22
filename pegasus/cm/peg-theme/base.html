@@ -1,0 +1,70 @@
+{% load staticfiles %}
+
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+        <link rel="stylesheet" href="{% static 'css/sb-admin.css' %}"> 
+        <link rel="stylesheet" href="{% static 'css/cm.css' %}">
+        <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}" type="text/css"> 
+        <link href='https://fonts.googleapis.com/css?family=Ubuntu:400,500,700' rel='stylesheet' type='text/css'>
+        <title>Changemanagement</title>
+    </head>
+
+    <body>
+        <!-- jQuery (wird für Bootstrap JavaScript-Plugins benötigt) -->
+        <script src="{% static 'js/jquery-1.11.3.min.js' %}"></script>
+        <!-- Binde alle kompilierten Plugins zusammen ein (wie hier unten) oder such dir einzelne Dateien nach Bedarf aus -->
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>
+        
+        <div class="header">
+            <div class="logo">
+                <img src="https://www.pegasus-gmbh.de/fileadmin/templates/css/images/peg_logo2.png">
+            </div>
+            <div class=ueberschrift>
+                <h1>pegasus Changemanagement</h1>
+            </div>
+        </div>
+        <div class="body">
+            <ul class="nav navbar-nav side-nav">
+                <li class="active">
+                    <a href="{% url 'kunden_liste' %}">
+                        <i class="fa fa-fw fa-user"></i>
+                            Kunde
+                    </a>
+                </li> 
+                <li class="active">
+                    <a href="{% url 'vm_liste' %}">
+                        <i class="fa fa-fw fa-bar-chart-o"></i>
+                            VM
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'change_liste' %}">
+                        <i class="fa fa-fw fa-book"></i>
+                            Change
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'change_liste' %}">
+                        <i class="fa fa-fw fa-hdd-o"></i>
+                            Backup
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'change_liste' %}">
+                        <i class="fa fa-fw fa-eye"></i>
+                            Monitoring
+                    </a>
+                </li>
+            </ul>
+        <div class="content">
+            {% block content %}
+            {% endblock %} 
+        </div                
+        </div>
+    </body>
+</html>

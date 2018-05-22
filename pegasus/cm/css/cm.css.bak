@@ -1,0 +1,56 @@
+body {
+    font-family: Ubuntu;
+    background-color: #002a40;
+}
+
+.header {
+    color: orange;
+    padding-top: 40px;
+    padding-bottom: 35px;
+    padding-left: 35px;        
+    position: fixed;
+    width: 100%
+}
+
+.logo {
+    float: right;
+    padding-right: 30px;
+}
+
+.content {
+    float: left;
+    padding-left: 50px;
+    padding-right: 50px;
+    padding-top: 50px;
+    color: orange;
+    margin-top: 80px;
+    margin-left: 225px;
+    
+}
+
+
+.fa {
+    color: orange;
+}
+
+.page-wrapper {
+    float: right;
+    width: 80%;
+}
+
+.add_button {
+    float: right;
+    font-size: 30px;
+    margin: 10px;
+
+}
+
+.add_button>a:hover {
+    color: white;
+}
+
+.post-form textarea, .post-form input {
+    width: 100%;
+}
+
+

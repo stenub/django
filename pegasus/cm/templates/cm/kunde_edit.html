@@ -1,0 +1,51 @@
+{% extends 'cm/base.html' %}
+
+{% block navbar_class-kunde %} active {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            Kundenübersicht <small>Kunden Overview</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-user"></i> Formular zur Kundenanlage
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                Hallo Theresa! Wie geht es dir?
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo
+               
+                    <div class="col-lg-6">
+                        <h2>Neuer Kunde<a href="{% url 'kunde_neu' %}" class="edit_button"><span class="fa fa-floppy-o"></span></a> </h2>
+
+                       <form method="POST" class="post-form">{% csrf_token %}
+                           <!--        {{ form|crispy }} -->
+                           {% crispy form %}
+                       <!--    <button type="submit" class="save btn btn-primary">Speichern</button> -->
+                       </form>
+
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                            </table>
+                        </div>
+                    </div>
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+{% endblock %}
+

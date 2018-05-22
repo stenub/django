@@ -1,0 +1,79 @@
+{% extends 'cm/base.html' %}
+
+{% block navbar_class-vm %} active {% endblock %}
+
+{% block content %}
+
+            <div class="container-fluid">
+
+                <!-- Page Heading -->
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">
+                            VM-Übersicht <small>VM Overview</small>
+                        </h1>
+                        <ol class="breadcrumb">
+                            <li class="active">
+                                <i class="fa fa-bar-chart-o"></i> Übersicht über alle aktuell in der Datenbank enthaltenen VMs
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <!-- /.row -->
+
+                Hallo Theresa! Wie geht es dir?
+                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat,
+                sed diam voluptua. At vero eos et accusam et justo
+                
+                    <div class="col-lg-12">
+                        <h2>VM-Liste <a href="{% url 'vm_neu' %}" class="edit_button"><span class="glyphicon glyphicon-edit"></span></a></h2>
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Kunde</th>
+                                        <th>VM-Name</th>
+                                        <th>Erstellungsdatum</th>
+                                        <th>Beschreibung</th>
+                                        <th>Inventory-Location</th>
+                                        <th>Cluster</th>
+                                        <th>Ressource-Pool</th>
+                                        <th>Storage</th>
+                                        <th>VM-Version</th>
+                                        <th>OS-Version</th>
+                                        <th>CPU</th>
+                                        <th>RAM</th>
+                                        <th>Tier-A</th>
+                                        <th>Tier-C</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for vm in object_list %}
+                                    <tr>
+                                        <td>{{ vm.kunde }}</td>
+                                        <td>{{ vm.name }}</td>
+                                        <td>{{ vm.creationdate }}</td>
+                                        <td>{{ vm.beschreibung }}</td>
+                                        <td>{{ vm.inventory_location }}</td>
+                                        <td>{{ vm.datacenter_cluster }}</td>
+                                        <td>{{ vm.ressource_pool }}</td>
+                                        <td>{{ vm.storage }}</td>
+                                        <td>{{ vm.vm_version }}</td>
+                                        <td>{{ vm.os_version }}</td>
+                                        <td>{{ vm.cpu }}</td>
+                                        <td>{{ vm.ram }} GB</td>
+                                   <!-- <td>{{ vm.tiera }} GB</td> -->
+                                   <!-- <td>{{ vm.tierc }} GB</td> -->
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+
+            </div>
+            <!-- /.container-fluid -->
+
+{% endblock %}
+

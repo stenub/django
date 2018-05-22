@@ -1,0 +1,38 @@
+body { 
+    background-color: #002a40;
+
+}
+
+.navbar-inverse .navbar-nav>li>a {
+    color: #00AAE2;
+}
+
+.navbar-inverse .navbar-nav>.active>a, .navbar-inverse .navbar-nav>.active>a:focus, .navbar-inverse .navbar-nav>.active>a:hover {
+    color: #fff;
+    background-color: #194871;
+}
+
+.navbar-inverse .navbar-brand {
+    background-color: #002a40;
+    color: orange;
+}
+
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form {
+    background-color: #002a40;
+}
+
+.side-nav {
+    background-color: #002a40;
+}
+
+.navbar-header {
+    background-color: #002a40;
+}
+
+.fa {
+    color: orange;
+}
+
+.edit_button {
+    float: right;
+}

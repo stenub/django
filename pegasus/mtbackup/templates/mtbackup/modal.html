@@ -1,0 +1,67 @@
+
+
+
+{% for d in devices %}
+
+<div class="modal fade" id="DeviceEditModal_{{ d.slug }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Edit Device "{{ d.hostname }}"</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Hostname</th>
+            <th scope="col">Management IP</th>
+            <th scope="col">Username</th>
+            <th scope="col">Password</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>{{ d.hostname }}</td>
+            <td>{{ d.mgt_ip }}</td>
+            <td>{{ d.username }}</td>
+            <td>{{ d.password }}</td>
+        </tbody>
+        </table>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+
+
+
+                    <a href="#"><button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#DeviceEditModal_{{ d.slug }}"><i class="fas fa-edit"></i> Edit</button></a>
+
+                    <a href="#"><button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#DeviceEditModal_{{ d.slug }}"><i class="fas fa-database"></i> Backup</button></a>
+
+                    <a href="?delete={{ d.slug }}"><button type="button" class="btn btn-outline-dark" ><i class="fas fa-database"></i> TEST</button></a>
+
+                    <a tabindex="0"
+                       class="btn btn-outline-dark"
+                       role="button"
+                       data-toggle="popover"
+                       data-trigger="focus"
+                       title="Wirklich löschen?"
+                       data-html="true"
+                       data-content="<div class='text-center'>
+                                        <a href='{% url 'device_delete' slug=d.slug %}'>
+                                            <button type='button' class='btn btn-sm btn-danger'>Ja mann!</button>
+                                        </a>
+                                    </div>"
+                    ><i class="fas fa-trash-alt"></i> Delete</a>

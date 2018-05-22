@@ -1,0 +1,23 @@
+{% extends 'mtbackup/base.html' %}
+
+{% block content %}
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>Add new Schedule</h1>
+        <p>Neue Schedule hinzufügen</p>
+
+        <form class="form-inline" method="post">
+            {% csrf_token%}
+            {{ form }}
+            <button type="submit" class="btn btn-primary mb-2">Speichern</button>
+        </form>
+
+
+        <p><a href="{% url 'schedule_list' %}">Schedule List</a></p>
+
+    </div>
+</div>
+
+
+{% endblock %}
