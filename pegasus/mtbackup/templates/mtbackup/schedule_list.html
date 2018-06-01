@@ -8,20 +8,37 @@
         <h1>List all Schedules</h1>
         <p>Alle Schedules auflisten</p>
 
+        <form role="form" method="post">
+            {% csrf_token %}
+
+        <div>
+            <p>
+
+            <a href="{% url 'schedule_new' %}"><button type="button" class="btn btn-outline-dark"><i class="fas fa-plus-square"></i> Add</button></a>
+
+            <a href="#"><button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#DeviceEditModal"><i class="fas fa-edit"></i> Edit</button></a>
+
+            <a href="#"><button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#ScheduleDeleteModal"><i class="fas fa-eraser"></i> Delete</button></a>
+
+            </p>
+        </div>
+
 
         <table class="table table-hover">
-                <thead>
+            <thead>
                 <tr>
+                    <th scope="col">Select</th>
                     <th scope="col">Minute</th>
                     <th scope="col">Hour</th>
                     <th scope="col">Day_of_Week</th>
                     <th scope="col">Day_of_Month</th>
                     <th scope="col">Month_of_Year</th>
                 </tr>
-                </thead>
-                <tbody>
+            </thead>
+            <tbody>
                 {% for s in schedules %}
                 <tr>
+                    <td><input type="checkbox" name="select" value="{{ s.id }}"></td>
                     <td>{{ s.minute }}</td>
                     <td>{{ s.hour }}</td>
                     <td>{{ s.day_of_week }}</td>
@@ -29,12 +46,71 @@
                     <td>{{ s.month_of_year }}</td>
                 </tr>
                 {% endfor %}
-                </tbody>
+            </tbody>
+        </table>
 
-            </table>
+
+
+        {% if schedules.has_other_pages %}
+            <ul class="pagination justify-content-center">
+                {% if schedules.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page={{ schedules.previous_page_number }}">&laquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
+                {% endif %}
+
+                {% for i in schedules.paginator.page_range %}
+                    {% if schedules.number == i %}
+                        <li class="page-item active"><span class="page-link">{{ i }} <span class="sr-only">(current)</span> </span></li>
+                    {% else %}
+                        <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if schedules.has_next %}
+                    <li class="page-item"><a class="page-link" href="?page={{ schedules.next_page_number }}">&raquo;</a></li>
+                {% else %}
+                    <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
+                {% endif %}
+            </ul>
+        {% endif %}
+
 
     </div>
 </div>
+
+
+
+
+
+<div class="modal fade" id="ScheduleDeleteModal" tabindex="-1" role="dialog" aria-labelledby="ScheduleDeleteModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Really delete Schedule?</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-auto">
+        <h1 class="display-4">Warning!</h1>
+        <h5>Schedule will be lost, although existing Devices and Backups will not be deleted!</h5>
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, please return...</button>
+        <a href='#'><button type='submit' name="action" value="delete" class='btn btn-danger'>YES, I am sure!</button></a>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+</form>
+
 
 
 

@@ -9,6 +9,8 @@ from django_celery_beat.models import CrontabSchedule
 from django.utils.translation import gettext_lazy as _
 
 
+#TODO: rename all classes to PEP8 CamelCase Convention
+
 class customer_new_form(forms.ModelForm):
 
     class Meta:
@@ -48,8 +50,36 @@ class device_new_form(forms.ModelForm):
         }
 
 
+class device_customer_select(forms.ModelForm):
 
-class schedule_new_form(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(device_customer_select, self).__init__(*args, **kwargs)
+        self.fields['customer'].empty_label = 'Please Select'
+        #print(self.fields['customer'].help)
+        #self.fields['customer'].choices = [('customer', 'Alle'), ] + list(self.fields['customer'].choices)[1:]
+
+    class Meta:
+        model = Device
+        fields = ['customer']
+        labels = {'customer': _('')}
+        widgets = {'customer': Select(attrs={'class': 'custom-select', 'placeholder': 'Customer'})}
+
+
+class DeviceCustomerSelect(forms.Form):
+
+    customer_set = Customer.objects.all()
+
+    CUSTOMERS = [('ALLE', 'All Customers')]
+
+    for customer in customer_set:
+        CUSTOMERS += (customer.id, customer.number + '-' + customer.name),
+
+    customer_select = forms.ChoiceField(choices=CUSTOMERS, label='')
+
+
+
+
+class ScheduleNewForm(forms.ModelForm):
 
 
     class Meta:

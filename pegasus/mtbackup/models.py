@@ -1,5 +1,4 @@
 from django.db import models
-from django.template.defaultfilters import slugify
 from django_celery_beat.models import CrontabSchedule
 
 
@@ -25,11 +24,6 @@ class Device(models.Model):
     username = models.CharField(max_length=50,)
     password = models.CharField(max_length=50, default='', blank=True)
     description = models.CharField(max_length=100, default='', blank=True)
-    slug = models.SlugField(default='')
-
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.hostname)
-        super(Device, self).save(*args, **kwargs)
 
 
     def __str__(self):
@@ -39,6 +33,8 @@ class Device(models.Model):
         ordering = ['hostname']
 
 
+#TODO: Das Schedule Model lässt sich nicht mehr entfernen. Datenbank komplett löschen und neu aufbauen, dabei ein
+#neues User Model anlegen, wenn benötigt. Anleitung: https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#extending-the-existing-user-model
 class Schedule(CrontabSchedule):
 
     MINUTE_CHOICES = [
@@ -46,6 +42,7 @@ class Schedule(CrontabSchedule):
         (35, '35'), (40, '40'), (45, '45'), (50, '50'), (55, '55'), (60, '60')
     ]
 #    minute = models.CharField(max_length=2, choices=MINUTE_CHOICES, default='*')
+
 
 
 # Die Idee hier ist das CrontabSchedule model zu erweitern indem man davon erbt und auf Basis dessen

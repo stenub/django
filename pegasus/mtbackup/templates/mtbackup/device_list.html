@@ -11,8 +11,9 @@
         <form role="form" method="post">
             {% csrf_token %}
 
-        <div>
-            <p>
+        <div class="form-inline">
+
+        <!-- TODO: Add spacing to buttons! -->
 
             <a href="{% url 'device_new' %}"><button type="button" class="btn btn-outline-dark"><i class="fas fa-plus-square"></i> Add</button></a>
 
@@ -24,8 +25,18 @@
 
             <a href="#"><button type="button" class="btn btn-outline-dark" name="action" value="info"><i class="fas fa-info-circle"></i> Info</button></a>
 
-            </p>
+            <div class="input-group ml-auto">
+                {{ customer_filter }}
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-outline-dark" name="action" value="customer_filter"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+            </div>
+
+
+
+
         </div>
+        <br>
 
         <div class="alert alert-success" role="alert">
             Das ist eine Notiz an mich, dass ich mir die Möglichkeiten anschaue, Benachrichtigungen reinfahren zu lassen. "Speichern erfolgreich", "Backup abgeschlossen", usw..
@@ -123,12 +134,13 @@
 </div>
 
 
-
 </form>
-
-
 
 
 {% endblock %}
 
+
+
+{% block script %}
+{% endblock %}
 
