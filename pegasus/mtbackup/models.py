@@ -1,8 +1,17 @@
 from django.db import models
 from django_celery_beat.models import CrontabSchedule
-
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
+
+
+# Custom User Model which substitutes the built-in User model
+
+class User(AbstractUser):
+    pass
+
+
+
 
 class Customer(models.Model):
     name = models.CharField(max_length=100)

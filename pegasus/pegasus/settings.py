@@ -55,6 +55,10 @@ BROKER_URL = 'redis://localhost:6379/0'
 
 CELERY_RESULT_BACKEND = 'django-db'
 
+#Custom user model
+
+AUTH_USER_MODEL = mtbackup.User
+
 
 
 MIDDLEWARE = [
