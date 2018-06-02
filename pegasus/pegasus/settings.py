@@ -46,6 +46,9 @@ INSTALLED_APPS = [
 
 ]
 
+#TODO: add a settings page in mtbackuo app to configure the settings in this module
+
+#TODO: add broker settings on settings page and implement modification of this variable
 
 BROKER_URL = 'redis://localhost:6379/0'
 
@@ -88,6 +91,8 @@ WSGI_APPLICATION = 'pegasus.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+#todo: add database settings in settings page. perhaps a setup wizard makes sense later on..
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -117,6 +122,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
+
+#TODO: make Language code and timezone changeable via settings page. maybe settings should not be changeable after DB initialization
 
 LANGUAGE_CODE = 'de-de'
 
