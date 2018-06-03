@@ -8,11 +8,13 @@ from .models import Device, Customer
 
 from django_celery_beat.models import CrontabSchedule
 
-from .forms import customer_new_form, device_new_form, ScheduleNewForm, device_customer_select, DeviceCustomerSelect
+from .forms import customer_new_form, device_new_form, ScheduleNewForm, DeviceSearch
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .tasks import *
+
+from django.contrib.postgres.search import SearchVector
 
 from celery import chord
 
@@ -69,22 +71,27 @@ def customer_new(request):
 
 
 def device_list(request):
+
     devices_all = Device.objects.all()
 
-
-
-    if request.method == "GET":
-        customer_filter = device_customer_select()
-    if request.method == "POST":
-        customer_filter = device_customer_select(request.POST)
-        if customer_filter.is_valid():
-            #print(customer_filter.cleaned_data.get('customer'))
-            devices_all = Device.objects.filter(customer=customer_filter.cleaned_data.get('customer'))
-
+    if request.method == 'GET':
+        device_search = DeviceSearch()
+    if request.method == 'POST':
+        device_search = DeviceSearch(request.POST)
+        if request.POST.get('action') == 'search':
+            if device_search.is_valid():
+                print(device_search.cleaned_data.get('device_search'))
+                if device_search.cleaned_data.get('device_search') is not 'None':
+                    devices_all = Device.objects.annotate(
+                        search=SearchVector('hostname', 'username', 'customer__name', 'customer__number')
+                    ).filter(
+                        search=device_search.cleaned_data.get('device_search')
+                    )
+                    print("Search result: ", devices_all)
 
 
     paginator = Paginator(devices_all, 10)
-    #print(devices_all)
+
     page = request.GET.get('page', 1)
 
     # TODO: Add Form validation with if form.is_valid
@@ -93,24 +100,20 @@ def device_list(request):
         if request.POST.get('action') == 'backup':
             device_selections = request.POST.getlist('select')
             #print(device_selections)
-
             dev_objects = Device.objects.filter(id__in=device_selections)
-            #print(dev_objects)
-
-            for dev in dev_objects:
-                create_backup.delay(dev.customer.number, dev.hostname, dev.mgt_ip, 22, dev.username, dev.password)
-
+            print("Devices to backup: ", dev_objects)
+            #for dev in dev_objects:
+            #    create_backup.delay(dev.customer.number, dev.hostname, dev.mgt_ip, 22, dev.username, dev.password)
             # TODO: Add celery chord to this view, so when all device backups are done a git add and commit are executed
             #chord(backup_test.s(dev.hostname, dev.mgt_ip, dev.username, dev.password)for dev in dev_objects)(test_print.s())
-
-
-            #print(request.POST)
+            return redirect(device_list)
 
         elif request.POST.get('action') == 'delete':
             devices_to_delete = request.POST.getlist('select')
             # devices_to_delete.delete()
             print("Devices to delete", devices_to_delete)
             return redirect(device_list)
+
 
 
     try:
@@ -121,7 +124,7 @@ def device_list(request):
         devices = paginator.page(paginator.num_pages)
 
 
-    return render(request, 'mtbackup/device_list.html', {'devices': devices, 'customer_filter': customer_filter })
+    return render(request, 'mtbackup/device_list.html', {'devices': devices, 'device_search': device_search })
 
 
 

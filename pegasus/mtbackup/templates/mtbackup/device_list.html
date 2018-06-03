@@ -8,50 +8,35 @@
         <h1>List all Devices</h1>
         <p>Alle Geräte auflisten</p>
 
-        <form role="form" method="post">
+        <form role="form" method="post" novalidate>
             {% csrf_token %}
-
-        <div class="form-inline">
-
-        <!-- TODO: Add spacing to buttons! -->
-
-            <a href="{% url 'device_new' %}"><button type="button" class="btn btn-outline-dark"><i class="fas fa-plus-square"></i> Add</button></a>
-
-            <a href="#"><button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#DeviceEditModal"><i class="fas fa-edit"></i> Edit</button></a>
-
-            <a href="#"><button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#DeviceDeleteModal"><i class="fas fa-eraser"></i> Delete</button></a>
-
-            <a href="#"><button type="submit" class="btn btn-outline-dark" name="action" value="backup"><i class="fas fa-database"></i> Backup now</button></a>
-
-            <a href="#"><button type="button" class="btn btn-outline-dark" name="action" value="info"><i class="fas fa-info-circle"></i> Info</button></a>
-
-            <div class="input-group ml-auto">
-                {{ customer_filter }}
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-outline-dark" name="action" value="customer_filter"><i class="fas fa-filter"></i> Filter</button>
+            <div class="form-inline">
+                <!-- TODO: Add spacing to buttons! -->
+                <a href="{% url 'device_new' %}"><button type="button" class="btn btn-outline-dark mb-2 mr-sm-2"><i class="fas fa-plus-square"></i> Add</button></a>
+                <a href="#"><button type="button" class="btn btn-outline-dark mb-2 mr-sm-2" data-toggle="modal" data-target="#DeviceEditModal"><i class="fas fa-edit"></i> Edit</button></a>
+                <a href="#"><button type="button" class="btn btn-outline-dark mb-2 mr-sm-2" data-toggle="modal" data-target="#DeviceDeleteModal"><i class="fas fa-eraser"></i> Delete</button></a>
+                <a href="#"><button type="submit" class="btn btn-outline-dark mb-2 mr-sm-2" name="action" value="backup"><i class="fas fa-database"></i> Backup now</button></a>
+                <a href="#"><button type="button" class="btn btn-outline-dark mb-2 mr-sm-2" name="action" value="info"><i class="fas fa-info-circle"></i> Info</button></a>
+                <div class="input-group mb-2 mr-sm-1 ml-auto">
+                    {{ device_search }}
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-dark" name="action" value="search"><i class="fas fa-search"></i> Search</button>
+                        </div>
                 </div>
             </div>
 
-
-
-
-        </div>
-        <br>
-
-        <div class="alert alert-success" role="alert">
-            Das ist eine Notiz an mich, dass ich mir die Möglichkeiten anschaue, Benachrichtigungen reinfahren zu lassen. "Speichern erfolgreich", "Backup abgeschlossen", usw..
-        </div>
-
-
-        <table class="table table-hover table-bordered">
+            <br>
+            <!-- TODO: Add sliding in message box to notify the user for e.g. succeded or failed actions (backup, device deletion...) -->
+            <table class="table table-hover table-bordered">
             <thead>
             <tr>
                 <th scope="col">Select</th>
                 <th scope="col">Hostname</th>
                 <th scope="col">Management IP</th>
                 <th scope="col">Username</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Schedule</th>
                 <th scope="col">Status</th>
-                <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
@@ -61,22 +46,41 @@
                 <td>{{ d.hostname }}</td>
                 <td>{{ d.mgt_ip }}</td>
                 <td>{{ d.username }}</td>
+                <td>{{ d.customer }}</td>
+                <td>{{ d. }}</td>
                 <td><i class="far fa-check-circle" style="color:green"></i></td>
-                <td>
-
-
-
-                </td>
-              </tr>
+            </tr>
             {% endfor %}
             </tbody>
 
         </table>
+            <div class="modal fade" id="DeviceDeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeviceDeleteModal" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Really delete Devices?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body mx-auto">
+                <h1 class="display-4">Warning!</h1>
+                <h5>Devices will be lost, although existing Backups will not be deleted!</h5>
 
+              </div>
+              <div class="modal-footer">
 
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No, please return...</button>
+                <a href='#'><button type='submit' name="action" value="delete" class='btn btn-danger'>YES, I am sure!</button></a>
 
-        {% if devices.has_other_pages %}
-            <ul class="pagination justify-content-center">
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+
+            {% if devices.has_other_pages %}
+                <ul class="pagination justify-content-center">
                 {% if devices.has_previous %}
                     <li class="page-item"><a class="page-link" href="?page={{ devices.previous_page_number }}">&laquo;</a></li>
                 {% else %}
@@ -97,48 +101,11 @@
                     <li class="page-item disabled"><span class="page-link">&raquo;</span></li>
                 {% endif %}
             </ul>
-        {% endif %}
-
-
-
-
+            {% endif %}
     </div>
 </div>
-
-
-
-
-
-<div class="modal fade" id="DeviceDeleteModal" tabindex="-1" role="dialog" aria-labelledby="DeviceDeleteModal" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Really delete Devices?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body mx-auto">
-        <h1 class="display-4">Warning!</h1>
-        <h5>Devices will be lost, although existing Backups will not be deleted!</h5>
-
-      </div>
-      <div class="modal-footer">
-
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">No, please return...</button>
-        <a href='#'><button type='submit' name="action" value="delete" class='btn btn-danger'>YES, I am sure!</button></a>
-
-      </div>
-    </div>
-  </div>
-</div>
-
-
-</form>
-
 
 {% endblock %}
-
 
 
 {% block script %}

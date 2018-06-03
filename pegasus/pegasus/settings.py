@@ -40,17 +40,25 @@ INSTALLED_APPS = [
     'mtbackup',
     'django_celery_beat',
     'django_celery_results',
+    'django.contrib.postgres',
     #'djcelery',
     #'kombu.transport.django',
 
 
 ]
 
+#TODO: add a settings page in mtbackuo app to configure the settings in this module
+
+#TODO: add broker settings on settings page and implement modification of this variable
 
 BROKER_URL = 'redis://localhost:6379/0'
 
 
 CELERY_RESULT_BACKEND = 'django-db'
+
+#Custom user model
+
+AUTH_USER_MODEL = 'mtbackup.User'
 
 
 
@@ -88,13 +96,29 @@ WSGI_APPLICATION = 'pegasus.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+#todo: add database settings in settings page. perhaps a setup wizard makes sense later on..
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'django_mtbackup'),
+        'USER': os.environ.get('DB_USER', 'django'),
+        'PASSWORD': os.environ.get('DB_PASS', 'django123'),
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+"""
+#Default Database settings using sqlite3
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
@@ -117,6 +141,8 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/2.0/topics/i18n/
+
+#TODO: make Language code and timezone changeable via settings page. maybe settings should not be changeable after DB initialization
 
 LANGUAGE_CODE = 'de-de'
 
