@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'mtbackup',
     'django_celery_beat',
     'django_celery_results',
+    'django.contrib.postgres',
     #'djcelery',
     #'kombu.transport.django',
 
@@ -109,6 +110,7 @@ DATABASES = {
 }
 
 """
+#Default Database settings using sqlite3
 
 DATABASES = {
     'default': {

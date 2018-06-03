@@ -49,7 +49,7 @@ class device_new_form(forms.ModelForm):
             'password': PasswordInput(attrs={'class': 'form-control mb-2 mr-sm-2', 'placeholder': 'Password'}),
         }
 
-
+"""
 class device_customer_select(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -63,6 +63,12 @@ class device_customer_select(forms.ModelForm):
         fields = ['customer']
         labels = {'customer': _('')}
         widgets = {'customer': Select(attrs={'class': 'custom-select', 'placeholder': 'Customer'})}
+"""
+
+class DeviceSearch(forms.Form):
+
+    device_search = forms.CharField(max_length=20, strip=True, empty_value='None', label='')
+
 
 
 #class DeviceCustomerSelect(forms.Form):
