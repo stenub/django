@@ -65,16 +65,16 @@ class device_customer_select(forms.ModelForm):
         widgets = {'customer': Select(attrs={'class': 'custom-select', 'placeholder': 'Customer'})}
 
 
-class DeviceCustomerSelect(forms.Form):
+#class DeviceCustomerSelect(forms.Form):
 
-    customer_set = Customer.objects.all()
+#    customer_set = Customer.objects.all()
+#
+#    CUSTOMERS = [('ALLE', 'All Customers')]
 
-    CUSTOMERS = [('ALLE', 'All Customers')]
+#    for customer in customer_set:
+#        CUSTOMERS += (customer.id, customer.number + '-' + customer.name),
 
-    for customer in customer_set:
-        CUSTOMERS += (customer.id, customer.number + '-' + customer.name),
-
-    customer_select = forms.ChoiceField(choices=CUSTOMERS, label='')
+#    customer_select = forms.ChoiceField(choices=CUSTOMERS, label='')
 
 
 

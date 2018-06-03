@@ -8,7 +8,7 @@ from .models import Device, Customer
 
 from django_celery_beat.models import CrontabSchedule
 
-from .forms import customer_new_form, device_new_form, ScheduleNewForm, device_customer_select, DeviceCustomerSelect
+from .forms import customer_new_form, device_new_form, ScheduleNewForm, device_customer_select
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 

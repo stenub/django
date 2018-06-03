@@ -1,5 +1,5 @@
 from django.db import models
-from django_celery_beat.models import CrontabSchedule
+#from django_celery_beat.models import CrontabSchedule
 from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
@@ -9,7 +9,6 @@ from django.contrib.auth.models import AbstractUser
 
 class User(AbstractUser):
     pass
-
 
 
 
@@ -23,6 +22,7 @@ class Customer(models.Model):
 
     class Meta:
         ordering = ['number']
+
 
 
 class Device(models.Model):
@@ -42,14 +42,17 @@ class Device(models.Model):
         ordering = ['hostname']
 
 
+
+
+
 #TODO: Das Schedule Model lässt sich nicht mehr entfernen. Datenbank komplett löschen und neu aufbauen, dabei ein
 #neues User Model anlegen, wenn benötigt. Anleitung: https://docs.djangoproject.com/en/2.0/topics/auth/customizing/#extending-the-existing-user-model
-class Schedule(CrontabSchedule):
+#class Schedule(CrontabSchedule):
 
-    MINUTE_CHOICES = [
-        ("*", '*'), (5, '5'), (10, '10'), (15, '15'), (20, '20'), (25, '25'), (30, '30'),
-        (35, '35'), (40, '40'), (45, '45'), (50, '50'), (55, '55'), (60, '60')
-    ]
+#    MINUTE_CHOICES = [
+#        ("*", '*'), (5, '5'), (10, '10'), (15, '15'), (20, '20'), (25, '25'), (30, '30'),
+#        (35, '35'), (40, '40'), (45, '45'), (50, '50'), (55, '55'), (60, '60')
+#    ]
 #    minute = models.CharField(max_length=2, choices=MINUTE_CHOICES, default='*')
 
 

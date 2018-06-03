@@ -57,7 +57,7 @@ CELERY_RESULT_BACKEND = 'django-db'
 
 #Custom user model
 
-AUTH_USER_MODEL = mtbackup.User
+AUTH_USER_MODEL = 'mtbackup.User'
 
 
 
@@ -99,11 +99,24 @@ WSGI_APPLICATION = 'pegasus.wsgi.application'
 
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('DB_NAME', 'django_mtbackup'),
+        'USER': os.environ.get('DB_USER', 'django'),
+        'PASSWORD': os.environ.get('DB_PASS', 'django123'),
+        'HOST': 'localhost',
+        'PORT': '5432',
+    }
+}
+
+"""
+
+DATABASES = {
+    'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
+"""
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
